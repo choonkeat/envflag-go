@@ -14,7 +14,8 @@ and most importantly, default values can be provided by env. e.g. a flag named `
 Command-line flags are things that we want to parse upfront and abort if the values are invalid.
 So, though we don't like Go functions to `panic`, it's fine in this case.
 
-So if env `SESSION_DURATION=42` is set, the program would panic. But if `SESSION_DURATION=42m` is set, [42 minutes](https://pkg.go.dev/time#ParseDuration) is the default value.
+- if `SESSION_DURATION=42m` is set, yes [42 * time.Minute](https://pkg.go.dev/time#ParseDuration) is the default value
+- But if `SESSION_DURATION=42` is set by accident, the program should abort instead of defaulting to the hardcoded default of `5 * time.Hour`
 
 # Usage
 
