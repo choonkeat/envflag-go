@@ -1,6 +1,7 @@
 package envflag
 
 import (
+	"encoding"
 	"flag"
 	"os"
 	"strconv"
@@ -150,6 +151,26 @@ func StringVar(p *string, name string, value *string, usage string) {
 		return
 	}
 	panic("invalid default string value for env " + flagToEnv(name))
+}
+
+func TextVar(p encoding.TextUnmarshaler, name string, value encoding.TextMarshaler, usage string) {
+	switch s := os.Getenv(flagToEnv(name)); s {
+	case "":
+		if value != nil {
+			flag.TextVar(p, name, value, flagUsage(name, usage))
+			return
+		}
+	default:
+		if err := p.UnmarshalText([]byte(s)); err == nil {
+			// `p` is already set with default
+			flag.Func(name, flagUsage(name, usage), func(s string) error {
+				// but if flag is provided, we'll overwrite it
+				return p.UnmarshalText([]byte(s))
+			})
+			return
+		}
+	}
+	panic("invalid default text value for env " + flagToEnv(name))
 }
 
 // Just like flag.Uint64Var, but allows the default value to be set from an

@@ -26,6 +26,7 @@ type Flag struct {
 	myInt64    int64
 	myInt      int
 	myString   string
+	myText     LogLevel // 'debug', 'info', or 'error'
 	myUint64   uint64
 	myUint     uint
 }
@@ -38,6 +39,7 @@ func main() {
 	envflag.Int64Var(&f.myInt64, "my-int64", envflag.Ptr(int64(1)), "a int64 value")
 	envflag.IntVar(&f.myInt, "my-int", nil, "a int value")
 	envflag.StringVar(&f.myString, "my-string", nil, "a string value")
+	envflag.TextVar(&f.myText, "my-text", LogLevel("debug"), "a text value of either 'debug', 'info', or 'error'")
 	envflag.Uint64Var(&f.myUint64, "my-uint64", nil, "a uint64 value")
 	envflag.UintVar(&f.myUint, "my-uint", nil, "a uint value")
 	envflag.Parse() //  or the standard `flag.Parse()`

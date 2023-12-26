@@ -13,6 +13,7 @@ run-example-default-1:
 		MY_INT64=1234 \
 		MY_INT=12 \
 		MY_STRING=strrr \
+		MY_TEXT=info \
 		MY_UINT64=12345 \
 		MY_UINT=123 \
 		go run example/default/main.go
@@ -31,6 +32,7 @@ run-example-nodefault-1:
 		MY_INT64=1234 \
 		MY_INT=12 \
 		MY_STRING=strrr \
+		MY_TEXT=info \
 		MY_UINT64=12345 \
 		MY_UINT=123 \
 		go run example/nodefault/main.go
@@ -38,4 +40,4 @@ run-example-nodefault-1:
 run-example-nodefault-2:
 	# should fail since env vars are not set
 	env \
-		go run example/nodefault/main.go
+		go run example/nodefault/main.go || echo expected failure
